@@ -1,11 +1,8 @@
 {
   "name": "@unq-ui/twitter-model",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Twitter model implementation in JavaScript",
   "main": "index.ts",
-  "scripts": {
-    "test": "jest"
-  },
   "keywords": [
     "twitter",
     "model"
