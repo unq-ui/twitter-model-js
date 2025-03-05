@@ -1,12 +1,12 @@
 class IdGenerator {
-  private currentUserId: number = 0;
-  private currentTweetId: number = 0;
+  currentUserId = 0;
+  currentTweetId = 0;
 
-  nextUserId(): string {
+  nextUserId() {
     return `u_${++this.currentUserId}`;
   }
 
-  nextTweetId(): string {
+  nextTweetId() {
     return `t_${++this.currentTweetId}`;
   }
 }

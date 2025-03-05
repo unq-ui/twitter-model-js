@@ -4,9 +4,9 @@ import { UserException, TweetException } from './Exceptions';
 import { IdGenerator } from './IdGenerator';
 
 class TwitterSystem {
-  private idGenerator = new IdGenerator();
-  users: User[] = [];
-  tweets: Tweet[] = [];
+  idGenerator = new IdGenerator();
+  users = [];
+  tweets = [];
 
   /**
    * Creates a new user.
@@ -14,7 +14,7 @@ class TwitterSystem {
    *   If the email is already taken.
    *   If the username is already taken.
    */
-  addNewUser(user: DraftUser): User {
+  addNewUser(user) {
     this.users.forEach(draftUser => {
       if (draftUser.username === user.username) throw new UserException("Username is taken");
       if (draftUser.email === user.email) throw new UserException("Email is taken");
@@ -38,7 +38,7 @@ class TwitterSystem {
    * @throws UserException
    *  If the userId of the draftTweet doesn't exist.
    */
-  addNewTweet(tweet: DraftTweet): Tweet {
+  addNewTweet(tweet) {
     const user = this.getUser(tweet.userId);
     const newTweet = new Tweet(
       this.idGenerator.nextTweetId(),
@@ -61,7 +61,7 @@ class TwitterSystem {
    *  If the tweetId doesn't exist.
    *  If the tweetId belongs to the same user.
    */
-  addReTweet(tweet: DraftReTweet): Tweet {
+  addReTweet(tweet) {
     const user = this.getUser(tweet.userId);
     const originTweet = this.getTweet(tweet.tweetId);
     
@@ -88,7 +88,7 @@ class TwitterSystem {
    * @throws TweetException
    *  If the tweetId doesn't exist.
    */
-  replyTweet(tweet: DraftReplyTweet): Tweet {
+  replyTweet(tweet) {
     const user = this.getUser(tweet.userId);
     const originTweet = this.getTweet(tweet.tweetId);
     
@@ -113,7 +113,7 @@ class TwitterSystem {
    * @throws TweetException
    *  If the tweetId doesn't exist.
    */
-  toggleLike(tweetId: string, userId: string): Tweet {
+  toggleLike(tweetId, userId) {
     const user = this.getUser(userId);
     const originTweet = this.getTweet(tweetId);
     
@@ -133,7 +133,7 @@ class TwitterSystem {
    * @throws UserException
    *  If the userId or the userToFollowingId doesn't exist.
    */
-  toggleFollow(userId: string, userToFollowingId: string): User {
+  toggleFollow(userId, userToFollowingId) {
     const user = this.getUser(userId);
     const userToFollow = this.getUser(userToFollowingId);
 
@@ -157,7 +157,7 @@ class TwitterSystem {
   /**
    * Returns the list of tweets where the content contains the `text`
    */
-  search(text: string): Tweet[] {
+  search(text) {
     return this.tweets.filter(tweet => tweet.content.toLowerCase().includes(text.toLowerCase()));
   }
 
@@ -166,7 +166,7 @@ class TwitterSystem {
    * @throws UserException
    *  If the userId doesn't exist.
    */
-  getFollowingTweets(userId: string): Tweet[] {
+  getFollowingTweets(userId) {
     const user = this.getUser(userId);
     return this.tweets
       .filter(tweet => user.following.includes(tweet.user))
@@ -178,7 +178,7 @@ class TwitterSystem {
    * @throws UserException
    *  If the userId doesn't exist.
    */
-  getUsersToFollow(userId: string): User[] {
+  getUsersToFollow(userId) {
     const user = this.getUser(userId);
     const allUsers = [...this.users].sort((a, b) => a.followers.length - b.followers.length);
     const filteredUsers = allUsers.filter(user => user !== user && !user.following.includes(user));
@@ -188,7 +188,7 @@ class TwitterSystem {
   /**
    * Returns the posts with the most likes
    */
-  getTrendingTopics(): Tweet[] {
+  getTrendingTopics() {
     return [...this.tweets]
       .sort((a, b) => b.likes.length - a.likes.length)
       .slice(0, 10)
@@ -200,7 +200,7 @@ class TwitterSystem {
    * @throws UserException
    *  If the userId doesn't exist.
    */
-  getUser(userId: string): User {
+  getUser(userId) {
     const user = this.users.find(user => user.id === userId);
     if (!user) throw new UserException("User not found");
     return user;
@@ -211,7 +211,7 @@ class TwitterSystem {
    * @throws TweetException
    *  If the tweetId doesn't exist.
    */
-  getTweet(tweetId: string): Tweet {
+  getTweet(tweetId) {
     const tweet = this.tweets.find(tweet => tweet.id === tweetId);
     if (!tweet) throw new TweetException("Tweet not found");
     return tweet;

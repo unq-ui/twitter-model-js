@@ -7,7 +7,7 @@ import {
 import { Tweet, User } from "./src/Model";
 import { TwitterSystem } from "./src/TwitterSystem";
 
-const contents: string[] = [
+const contents = [
   "I like Atlanta.",
   "I'm going to the concert.",
   "You’ll get used to it.",
@@ -910,7 +910,7 @@ const contents: string[] = [
   "Nothing is impossible, the word itself says, “I’m possible!”",
 ];
 
-const users: DraftUser[] = [
+const users = [
   new DraftUser(
     "jania",
     "jania@gmail.com",
@@ -1123,7 +1123,7 @@ const users: DraftUser[] = [
   ),
 ];
 
-const tweetImages: string[] = [
+const tweetImages = [
   "https://images.pexels.com/photos/2102649/pexels-photo-2102649.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800",
   "https://images.pexels.com/photos/3850561/pexels-photo-3850561.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800",
   "https://images.pexels.com/photos/2228579/pexels-photo-2228579.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800",
@@ -1177,14 +1177,12 @@ const tweetImages: string[] = [
 ];
 
 class Random {
-  private seed: number;
-
-  constructor(seed: number) {
+  constructor(seed) {
     this.seed = seed;
   }
 
   // Simple random number generator with seed
-  nextInt(min: number, max: number): number {
+  nextInt(min, max) {
     this.seed = (this.seed * 9301 + 49297) % 233280;
     return min + Math.floor((this.seed / 233280) * (max - min));
   }
@@ -1193,17 +1191,17 @@ class Random {
 const random = new Random(100);
 const initDate = new Date(2023, 0, 1, 10, 0); // January 1, 2023, 10:00 AM
 
-function getRandomList<T>(list: T[], amountOfElements: number): T[] {
+function getRandomList(list, amountOfElements) {
   return Array(amountOfElements)
     .fill(0)
     .map(() => list[random.nextInt(0, list.length)]);
 }
 
-function getRandomElement<T>(list: T[]): T {
+function getRandomElement(list) {
   return getRandomList(list, 1)[0];
 }
 
-function getRandomDate(date: Date = new Date(initDate)): Date {
+function getRandomDate(date = new Date(initDate)) {
   const range = Array.from({ length: 25 }, (_, i) => i);
   const hoursToAdd = getRandomElement(range);
   const newDate = new Date(date);
@@ -1211,11 +1209,11 @@ function getRandomDate(date: Date = new Date(initDate)): Date {
   return newDate;
 }
 
-function addUsers(twitterSystem: TwitterSystem): void {
+function addUsers(twitterSystem) {
   users.forEach((user) => twitterSystem.addNewUser(user));
 }
 
-function addTweetsWithImage(twitterSystem: TwitterSystem): void {
+function addTweetsWithImage(twitterSystem) {
   twitterSystem.users.forEach((user) => {
     getRandomList(contents, 10).forEach((content) => {
       twitterSystem.addNewTweet(
@@ -1230,7 +1228,7 @@ function addTweetsWithImage(twitterSystem: TwitterSystem): void {
   });
 }
 
-function addTweetsWithoutImage(twitterSystem: TwitterSystem): void {
+function addTweetsWithoutImage(twitterSystem) {
   twitterSystem.users.forEach((user) => {
     getRandomList(contents, 10).forEach((content) => {
       twitterSystem.addNewTweet(
@@ -1240,9 +1238,9 @@ function addTweetsWithoutImage(twitterSystem: TwitterSystem): void {
   });
 }
 
-function addRetweets(twitterSystem: TwitterSystem): void {
+function addRetweets(twitterSystem) {
   twitterSystem.users.forEach((user) => {
-    getRandomList<Tweet>(twitterSystem.tweets, 7)
+    getRandomList(twitterSystem.tweets, 7)
       .filter((tweet) => tweet.user !== user)
       .forEach((tweet) => {
         twitterSystem.addReTweet(
@@ -1257,9 +1255,9 @@ function addRetweets(twitterSystem: TwitterSystem): void {
   });
 }
 
-function addRepliesWithImage(twitterSystem: TwitterSystem): void {
+function addRepliesWithImage(twitterSystem) {
   twitterSystem.users.forEach((user) => {
-    getRandomList<Tweet>(twitterSystem.tweets, 5).forEach((tweet) => {
+    getRandomList(twitterSystem.tweets, 5).forEach((tweet) => {
       twitterSystem.replyTweet(
         new DraftReplyTweet(
           user.id,
@@ -1273,9 +1271,9 @@ function addRepliesWithImage(twitterSystem: TwitterSystem): void {
   });
 }
 
-function addRepliesWithoutImage(twitterSystem: TwitterSystem): void {
+function addRepliesWithoutImage(twitterSystem) {
   twitterSystem.users.forEach((user) => {
-    getRandomList<Tweet>(twitterSystem.tweets, 5).forEach((tweet) => {
+    getRandomList(twitterSystem.tweets, 5).forEach((tweet) => {
       twitterSystem.replyTweet(
         new DraftReplyTweet(
           user.id,
@@ -1289,17 +1287,17 @@ function addRepliesWithoutImage(twitterSystem: TwitterSystem): void {
   });
 }
 
-function addLikes(twitterSystem: TwitterSystem): void {
+function addLikes(twitterSystem) {
   twitterSystem.users.forEach((user) => {
-    getRandomList<Tweet>(twitterSystem.tweets, 30).forEach((tweet) => {
+    getRandomList(twitterSystem.tweets, 30).forEach((tweet) => {
       twitterSystem.toggleLike(tweet.id, user.id);
     });
   });
 }
 
-function addFollowers(twitterSystem: TwitterSystem): void {
+function addFollowers(twitterSystem) {
   twitterSystem.users.forEach((user) => {
-    getRandomList<User>(twitterSystem.users, 4)
+    getRandomList(twitterSystem.users, 4)
       .filter((otherUser) => otherUser !== user)
       .forEach((otherUser) => {
         twitterSystem.toggleFollow(user.id, otherUser.id);
@@ -1307,7 +1305,7 @@ function addFollowers(twitterSystem: TwitterSystem): void {
   });
 }
 
-export function getTwitterSystem(): TwitterSystem {
+export function getTwitterSystem() {
   const twitterSystem = new TwitterSystem();
   addUsers(twitterSystem);
   addTweetsWithImage(twitterSystem);

@@ -1,12 +1,12 @@
 class UserException extends Error {
-  constructor(msg: string) {
+  constructor(msg) {
     super(msg);
     this.name = "UserException";
   }
 }
 
 class TweetException extends Error {
-  constructor(msg: string) {
+  constructor(msg) {
     super(msg);
     this.name = "TweetException";
   }
