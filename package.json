@@ -1,0 +1,21 @@
+{
+  "name": "@unq-ui/twitter-model",
+  "version": "1.0.1",
+  "description": "Twitter model implementation in JavaScript",
+  "main": "index.ts",
+  "scripts": {
+    "test": "jest"
+  },
+  "keywords": [
+    "twitter",
+    "model"
+  ],
+  "author": "UNQ UI",
+  "license": "ISC",
+  "devDependencies": {
+    "typescript": "^5.8.2"
+  },
+  "peerDependencies": {
+    "typescript": "^5.8.2"
+  }
+}
